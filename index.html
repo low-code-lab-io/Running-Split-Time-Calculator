@@ -1,0 +1,135 @@
+<meta charset="UTF-8">
+<style><!--
+/* Basic styling for the calculator */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.calculator {
+    max-width: 650px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.calculator h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.calculator label {
+    font-size: 1em;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.calculator input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.calculator .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.calculator .buttons button {
+    flex: 1;
+    margin-right: 5px;
+    padding: 10px;
+    background-color: #bf442e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.calculator .buttons button:last-child {
+    margin-right: 0;
+}
+
+.calculator .buttons button:hover {
+    background-color: #a43724;
+}
+
+.calculator button.calculate,
+.calculator button.clear {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #bf442e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.calculator button.calculate:hover,
+.calculator button.clear:hover {
+    background-color: #a43724;
+}
+
+.calculator .result {
+    margin-top: 20px;
+    font-size: 1.2em;
+    text-align: center;
+}
+--></style>
+<div class="calculator">
+<p style="text-align: left;"><strong>Instructions</strong></p>
+<ul>
+<li>Enter the <strong>total race distance</strong> in kilometers.</li>
+<li>Input the <strong>total race time</strong> in minutes.</li>
+<li>Specify the <strong>split distance</strong> in kilometers.</li>
+<li>Use the predefined buttons to quickly select common race distances.</li>
+<li>Click the <strong>'Calculate Split Time'</strong> button to view your split times.</li>
+<li>If you want to try again, click on the <strong>'Clear Input'</strong> button.</li>
+</ul>
+<p><label for="raceDistance">Enter Race Distance (km):</label></p>
+<div class="buttons"><button onclick="setRaceDistance(5)">5K</button> <button onclick="setRaceDistance(10)">10K</button> <button onclick="setRaceDistance(21.097)">Half Marathon</button> <button onclick="setRaceDistance(42.195)">Marathon</button></div>
+<input type="number" id="raceDistance" placeholder="Enter race distance" step="0.01"> <label for="raceTime">Enter Total Race Time (minutes):</label> <input type="number" id="raceTime" placeholder="Enter total race time" step="0.01"> <label for="splitDistance">Enter Split Distance (km):</label> <input type="number" id="splitDistance" placeholder="Enter split distance" step="0.01"> <button class="calculate" onclick="calculateSplitTime()">Calculate Split Time</button> <button class="clear" onclick="clearInputs()">Clear Input</button>
+<div class="result" id="result"></div>
+</div>
+<script>
+function setRaceDistance(distance) {
+    document.getElementById('raceDistance').value = distance;
+}
+
+function calculateSplitTime() {
+    var raceDistance = parseFloat(document.getElementById('raceDistance').value);
+    var raceTime = parseFloat(document.getElementById('raceTime').value);
+    var splitDistance = parseFloat(document.getElementById('splitDistance').value);
+
+    if (raceDistance && raceTime && splitDistance) {
+        var totalMinutesPerKm = raceTime / raceDistance;
+        var splitTime = (totalMinutesPerKm * splitDistance).toFixed(2);
+        var splitMinutes = Math.floor(splitTime);
+        var splitSeconds = Math.round((splitTime - splitMinutes) * 60);
+
+        document.getElementById('result').innerHTML = 
+            "Split Time for " + splitDistance + " km: " + splitMinutes + " minutes " + splitSeconds + " seconds.";
+    } else {
+        document.getElementById('result').innerHTML = "Please fill in all fields.";
+    }
+}
+
+function clearInputs() {
+    document.getElementById('raceDistance').value = '';
+    document.getElementById('raceTime').value = '';
+    document.getElementById('splitDistance').value = '';
+    document.getElementById('result').innerHTML = '';
+}
+</script>
